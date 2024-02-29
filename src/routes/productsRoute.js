@@ -6,11 +6,10 @@ const routerProducts = Router();
 const productManager = new ProductManager();
 
 
-//Lista todos los productos si no se incluye un limite
+
 routerProducts.get("/", async ({ query }, res) => {
   try {
     const { limit } = query;
-    console.log("🚀 ~ routerProducts.get ~ limit:", limit);
     let products = await productManager.getProducts();
 
     if (limit) {
@@ -23,11 +22,10 @@ routerProducts.get("/", async ({ query }, res) => {
   }
 });
 
-//Muestra el producto con el id encontrado
+
 routerProducts.get("/:pid/", async (req, res) => {
   try {
     const { pid } = req.params;
-    console.log("🚀 ~ routerProducts.get ~ pid:", pid);
     const product = await productManager.getProductById(pid);
 
     res.json(product);
@@ -37,12 +35,12 @@ routerProducts.get("/:pid/", async (req, res) => {
   }
 });
 
-//Agrega Productos
+
 routerProducts.post("/", async (req, res) => {
   try {
     const { title, description, code, price, stock, category, thumbnails } = req.body;
 
-    // Crear el objeto de datos del nuevo producto
+
     const productData = {
       title,
       description,
@@ -54,14 +52,14 @@ routerProducts.post("/", async (req, res) => {
     };
     await productManager.addProduct(productData);
 
-    res.status(201).send("Producto agregado exitosamente"); // Devuelve una respuesta exitosa
+    res.status(201).send("Producto agregado exitosamente"); 
   } catch (error) {
     console.error("Error al agregar el producto:", error);
     res.status(500).send("Error al agregar el producto");
   }
 });
 
-//Actualiza productos
+
 routerProducts.put("/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
@@ -88,7 +86,7 @@ routerProducts.delete("/:pid/", async (req, res) => {
   try {
     const { pid } = req.params;
 
-    // Busca el producto con el pid indicado
+  
     const product = await productManager.getProductById(pid);
 
     if (!product) {
@@ -96,7 +94,7 @@ routerProducts.delete("/:pid/", async (req, res) => {
       return;
     }
 
-    // Elimina el producto de la lista
+
     const deletedProduct = await productManager.deleteProduct(pid);
 
     if (!deletedProduct) {
